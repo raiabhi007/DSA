@@ -30,30 +30,22 @@ class GFG
 // } Driver Code Ends
 class Solution{
     static Boolean isSubsetSum(int N, int arr[], int sum){
-        int[][] dp = new int[N+1][sum+1];
+        boolean[][] dp = new boolean[N+1][sum+1];
+        dp[0][0] = true;
         for(int i=1;i<=N;i++){
-            for(int j=1;j<=sum;j++){
-                dp[i][j] = -1;
+            for(int j=0;j<=sum;j++){
+                if(j==0)
+                dp[i][j] = true;
+                else if(j-arr[i-1]<0)
+                dp[i][j] = dp[i-1][j];
+                else{
+                 if(dp[i-1][j-arr[i-1]]==true||dp[i-1][j]==true)
+                 dp[i][j] = true;
+                 else
+                 dp[i][j] = false;
+                }
             }
         }
-        int ans = subsetSum(N,arr,sum,dp);
-        return ans==1;
-    }
-    static int subsetSum(int n,int[] arr,int sum,int[][] dp){
-        if(sum==0)
-        return 1;
-        if(n==0)
-        return 0;
-        
-        if(dp[n][sum]!=-1)
-        return dp[n][sum];
-        
-        if(arr[n-1]>sum)
-        return dp[n][sum] = subsetSum(n-1,arr,sum,dp);
-        
-        if (subsetSum(n-1,arr,sum,dp) !=0||subsetSum(n-1,arr,sum-arr[n-1],dp)!=0)
-                return dp[n-1][sum] = 1;
-            else
-                return dp[n-1][sum] = 0;
+        return dp[N][sum];
     }
 }
