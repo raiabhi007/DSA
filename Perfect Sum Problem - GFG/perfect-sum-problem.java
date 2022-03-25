@@ -25,27 +25,26 @@ class GfG
 
 
 class Solution{
-
-	public int perfectSum(int arr[],int n, int sum) 
-	{ 
-	    int dp[][] = new int[n+1][sum+1];
-	     for(int i=0;i<=n;i++)
-	    dp[i][0] = 1;
-	    
-	    for(int i=0;i<=n;i++){
-	        for(int j=0;j<=sum;j++){
-	            if(i==0){
-	                if(j==0)
-	                dp[i][j] = 1;
-	                else
-	                dp[i][j] = 0;
-	            }
-	            else if(j<arr[i-1])
-	            dp[i][j] = dp[i-1][j];
-	            else
-	           dp[i][j] = (dp[i-1][j-arr[i-1]]+dp[i-1][j])%1000000007;
-	        }
-	    }
-	    return dp[n][sum];
+    int mod = 1000000007;
+	public int perfectSum(int arr[],int n, int sum){ 
+	   int[][] dp = new int[n+1][sum+1];
+	   for(int i=0;i<=n;i++){
+	       for(int j=0;j<=sum;j++)
+	       dp[i][j] = -1;
+	   }
+	   
+	   return perfectSumHelper(arr,n,sum,dp)%mod;
 	} 
+	public int perfectSumHelper(int[] arr,int n,int sum,int[][] dp){
+	   if(n==0)
+	   return dp[n][sum]=(sum==0)?1:0;
+	
+	   if(dp[n][sum]!=-1)
+	   return dp[n][sum]%mod;
+	   
+	   if(arr[n-1]>sum)
+	   return dp[n][sum] = (perfectSumHelper(arr,n-1,sum,dp))%mod;
+	   
+	   return dp[n][sum] = perfectSumHelper(arr,n-1,sum,dp)%mod+perfectSumHelper(arr,n-1,sum-arr[n-1],dp)%mod;
+	}
 }
