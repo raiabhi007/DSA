@@ -27,9 +27,10 @@ class Solution
 	  for(int i=0;i<n;i++){
 	      range+=arr[i];
 	  }
-	  boolean[][] dp = new boolean[n+1][range+1];
+	  int temp = range/2;
+	  boolean[][] dp = new boolean[n+1][temp+1];
 	  for(int i=0;i<=n;i++){
-	      for(int j=0;j<=range;j++){
+	      for(int j=0;j<=temp;j++){
 	          if(i==0){
 	              if(j==0)
 	              dp[i][j] = true;
@@ -46,14 +47,11 @@ class Solution
 	          }
 	      }
 	  }
-	  ArrayList<Integer> list = new ArrayList<>();
-	  for(int i=0;i<=range/2;i++){
-	      if(dp[n][i]==true)
-	      list.add(i);
-	  }
 	  int ans = Integer.MAX_VALUE;
-	  for(int i=0;i<list.size();i++)
-	  ans = Math.min(ans,range-2*list.get(i));
-	  return ans;
+	  for(int i=0;i<=temp;i++){
+	      if(dp[n][i]==true)
+	       ans = Math.min(ans,range-2*i);
+	  }
+	 	  return ans;
 	} 
 }
