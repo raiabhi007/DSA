@@ -27,25 +27,23 @@ class GFG{
         }
     }
 }// } Driver Code Ends
+
+
+//User function Template for Java
+
 class Solution{
-    static int knapSack(int N, int W, int val[], int wt[]){
-       int dp[] = new int[W+1];
-       Arrays.fill(dp,-1);
-       dp[0] = 0;
-       return helper(N,W,val,wt,dp);
-    }
-    static int helper(int N,int W,int val[],int wt[],int[] dp){
-        if(dp[W]!=-1)
-        return dp[W];
-         int ans = 0;
-        
-        for(int i=0;i<N;i++){
-            if(W>=wt[i]){
-            int temp = val[i] + helper(N,W-wt[i],val,wt,dp);
-            ans = Math.max(temp,ans);
+    static int knapSack(int N, int W, int val[], int wt[])
+    {
+        int dp[] = new int[W+1];
+        for(int i=1;i<=W;i++){
+            int ans = 0;
+            for(int j=0;j<N;j++){
+                if(wt[j]<=i){
+                    ans = Math.max(ans,val[j]+dp[i-wt[j]]);
+                }
             }
+            dp[i] = ans;
         }
-        return dp[W] = ans;
-        
+        return dp[W];
     }
 }
