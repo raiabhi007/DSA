@@ -3,25 +3,16 @@ class Solution {
         if(n==2||n==3)
             return n-1;
         int dp[] = new int[n+1];
-        Arrays.fill(dp,-1);
+        dp[1] = 1;
         dp[2] = 2;
         dp[3] = 3;
-        int ans = helper(n,dp);
-        return ans;
-        
-       
-    }
-    public int helper(int n,int[] dp){
-         if(n==2||n==3)
-        return n;
-        if(dp[n]!=-1)
-            return dp[n];
-         int ans = Integer.MIN_VALUE;
-        for(int i=2;i<n-1;i++){
-            int temp = (i*helper(n-i,dp));
-            ans = Math.max(ans,temp);
+        for(int i=4;i<=n;i++){
+            int temp = Integer.MIN_VALUE;
+            for(int j=i-1;j>1;j--){
+                temp = Math.max(temp,j*dp[i-j]);
+            }
+            dp[i] = temp;
         }
-        ans = Math.max(ans,n);
-        return dp[n]=ans;
+        return dp[n];
     }
 }
