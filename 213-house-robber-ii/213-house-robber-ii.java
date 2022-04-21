@@ -10,12 +10,13 @@ class Solution {
     public int robHelper(int[] nums,int i,int j){
         if(i==j)
             return nums[i];
-        int dp[] = new int[nums.length];
-        dp[i] = nums[i];
-        dp[i+1] = Math.max(nums[i],nums[i+1]);
-        
-        for(int k=i+2;k<=j;k++)
-            dp[k] = Math.max(dp[k-1],dp[k-2]+nums[k]);
-        return dp[j];
+         int prevNo = 0;
+         int prevYes = 0; 
+        for(int k=i;k<=j;k++){
+            int temp = prevNo;
+            prevNo = Math.max(prevNo,prevYes);
+            prevYes = nums[k]+temp;
+        }
+        return Math.max(prevNo,prevYes);
     }
 }
