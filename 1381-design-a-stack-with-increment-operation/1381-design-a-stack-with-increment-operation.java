@@ -1,7 +1,7 @@
 class CustomStack {
-    int stack[];
-    int size;
-    int index;
+    private int stack[];
+    private int size;
+    private int index;
     public CustomStack(int maxSize) {
         stack = new int[maxSize];
         size = maxSize;
