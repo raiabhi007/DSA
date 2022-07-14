@@ -14,34 +14,34 @@
  * }
  */
 class Solution {
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return buildTreeHelper(inorder,preorder,0,inorder.length-1,0,preorder.length-1);
+    public TreeNode buildTree(int[] pre, int[] in) {
+        return build(pre,in,0,pre.length-1,0,in.length-1);
     }
-    public TreeNode buildTreeHelper(int[] in,int[] pre,int inS,int inE,int preS,int preE){
-        if(inS>inE)
+    public TreeNode build(int[] pre,int[] in,int preS,int preE,int inS,int inE){
+        if(preE<preS)
             return null;
-        int rootData = pre[preS];
-        TreeNode root = new TreeNode(rootData);
-        int rootIndex = -1;
-        for(int i=inS;i<=inE;i++){
-            if(in[i]==rootData){
-                rootIndex = i;
+        TreeNode root = new TreeNode(pre[preS]);
+        if(preS==preE)
+            return root;
+        int idx = inS;
+        for(int i = inS;i<=inE;i++){
+            if(in[i]==pre[preS]){
+                idx = i;
                 break;
-            }
-        }        
-        int leftInS = inS;
-        int leftInE = rootIndex-1;
+            }                
+        }
         int leftPreS = preS+1;
-        int leftPreE = leftPreS + leftInE-leftInS;
-        int rightInS = rootIndex+1;
-        int rightInE = inE;
+        int leftPreE = preS+idx-inS;
+        int leftInS = inS;
+        int leftInE = idx-1;
         int rightPreS = leftPreE+1;
         int rightPreE = preE;
+        int rightInS = idx+1;
+        int rightInE = inE;
         
-        root.left = buildTreeHelper(in,pre,leftInS,leftInE,leftPreS,leftPreE);
-        root.right = buildTreeHelper(in,pre,rightInS,rightInE,rightPreS,rightPreE);
+        root.left = build(pre,in,leftPreS,leftPreE,leftInS,leftInE);
+        root.right = build(pre,in,rightPreS,rightPreE,rightInS,rightInE);
         return root;
             
-        
     }
 }
