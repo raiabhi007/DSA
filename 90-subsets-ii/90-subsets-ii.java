@@ -7,14 +7,13 @@ class Solution {
         return ans;
     }
     public void backtrack(int i,int[] nums,List<Integer> list,List<List<Integer>> ans){
-        if(i==nums.length){
-            if(!ans.contains(list))
-            ans.add(new ArrayList<>(list));
-            return;
+        ans.add(new ArrayList<>(list));
+        
+        for(int k=i;k<nums.length;k++){
+           if(k>i&&nums[k]==nums[k-1]) continue;
+            list.add(nums[k]);
+            backtrack(k+1,nums,list,ans);
+            list.remove(list.size()-1);
         }
-        backtrack(i+1,nums,list,ans);
-        list.add(nums[i]);
-        backtrack(i+1,nums,list,ans);
-        list.remove(list.size()-1);
     }
 }
