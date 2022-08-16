@@ -10,6 +10,8 @@ class Solution {
         return ans;
     }
     public void helper(HashSet<String> set, int n,String asf){
+        if(!ans.equals(""))
+            return;
         if(n==0){
             if(!set.contains(asf))
                 ans = new String(asf);
