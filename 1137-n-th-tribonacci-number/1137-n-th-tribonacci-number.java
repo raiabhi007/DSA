@@ -1,16 +1,18 @@
 class Solution {
     public int tribonacci(int n) {
-        return helper(n,new int[n+1]);
-    }
-    public int helper(int n,int[] arr){
-        if(n==0)
-            return 0;
-        if(n==1||n==2)
+        if(n==0||n==1)
+            return n;
+        if(n==2)
             return 1;
-        if(arr[n]!=0)
-            return arr[n];
-        int ans = helper(n-1,arr)+helper(n-2,arr)+helper(n-3,arr);
-        arr[n] = ans;
-        return ans;
+        int a = 0;
+        int b = 1;
+        int c = 1;
+        for(int i=3;i<=n;i++){
+            int d = a+b+c;
+            a = b;
+            b = c;
+            c = d;
+        }
+        return c;
     }
 }
