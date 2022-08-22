@@ -1,22 +1,22 @@
 class Solution {
     public int rob(int[] nums) {
-        if(nums.length==1)
+         if( nums.length==1)
             return nums[0];
-        int ans1 = robHelper(nums,0,nums.length-2);
-        int ans2 = robHelper(nums,1,nums.length-1);
-        
-        return Math.max(ans1,ans2);
+        int n = nums.length;
+        if(n==2)
+            return Math.max(nums[0],nums[1]);
+        int a = helper(nums,0,n-2);
+        int b = helper(nums,1,n-1);
+        return Math.max(a,b);
     }
-    public int robHelper(int[] nums,int i,int j){
-        if(i==j)
-            return nums[i];
-         int prevNo = 0;
-         int prevYes = 0; 
-        for(int k=i;k<=j;k++){
-            int temp = prevNo;
-            prevNo = Math.max(prevNo,prevYes);
-            prevYes = nums[k]+temp;
+    int helper(int[] nums,int i,int j){
+        int a = nums[i];
+        int b = Math.max(nums[i],nums[i+1]);
+        for(int k=i+2;k<=j;k++){
+            int c = Math.max(a+nums[k],b);
+            a = b;
+            b = c;
         }
-        return Math.max(prevNo,prevYes);
+        return b;
     }
 }
