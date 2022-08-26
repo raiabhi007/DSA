@@ -6,11 +6,13 @@ class Solution {
         
         for(int i=0;i<31;i++){
             char[] a2 = String.valueOf((int)(1<<i)).toCharArray();
+            if(a2.length==a1.length){
             Arrays.sort(a2);
             String s2 = new String(a2);
             if(s1.equals(s2))
                 return true;
-            if(s2.length()>s1.length())
+            }
+            else if(a2.length>a1.length)
                 return false;
         }
         return false;
