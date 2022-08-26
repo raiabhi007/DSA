@@ -10,6 +10,8 @@ class Solution {
             String s2 = new String(a2);
             if(s1.equals(s2))
                 return true;
+            if(s2.length()>s1.length())
+                return false;
         }
         return false;
     }
