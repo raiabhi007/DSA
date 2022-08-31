@@ -5,15 +5,14 @@ class Solution {
         int n = arr.length;
         int[][] dp = new int[k+1][n];
         for(int t=1;t<=k;t++){
+            int max = Integer.MIN_VALUE;
             for(int d=1;d<arr.length;d++){
-                int max = dp[t][d-1];
-                for(int pd=0;pd<d;pd++){
-                    int ptillm1 = dp[t-1][pd];
-                    int ptth = arr[d] - arr[pd];
-                    if(ptillm1+ptth>max)
-                        max = ptillm1 + ptth;
-                }
-                dp[t][d] = max;
+                if(dp[t-1][d-1]-arr[d-1]>max)
+                    max = dp[t-1][d-1] - arr[d-1];
+                if(max+arr[d]>dp[t][d-1])
+                    dp[t][d] = max + arr[d];
+                else
+                    dp[t][d] = dp[t][d-1];
             }
         }
         return dp[k][n-1];
