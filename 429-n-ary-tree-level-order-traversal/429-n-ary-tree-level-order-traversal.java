@@ -16,9 +16,10 @@ class Node {
     }
 };
 */
+
 class Solution {
     public List<List<Integer>> levelOrder(Node root) {
-        List<List<Integer>> ans = new ArrayList<>();
+         List<List<Integer>> ans = new ArrayList<>();
         if(root==null)
             return ans;
         Queue<Node> q = new LinkedList<>();
