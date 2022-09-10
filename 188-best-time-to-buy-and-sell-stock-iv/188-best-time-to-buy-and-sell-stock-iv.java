@@ -1,6 +1,6 @@
 class Solution {
     public int maxProfit(int k, int[] arr) {
-        if(arr.length==0)
+         if(arr.length==0)
          return 0;   
         int n = arr.length;
         int[][] dp = new int[k+1][n];
