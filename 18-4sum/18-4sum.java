@@ -1,6 +1,6 @@
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
-        Arrays.sort(nums);
+         Arrays.sort(nums);
         int n = nums.length;
         List<List<Integer>> list = new ArrayList<>();
         for(int i=0;i<n-3;i++){
@@ -10,8 +10,8 @@ class Solution {
                     int k = j+1;
                     int l = n-1;
                     while(k<l){                        
-                        int sum= nums[i]+nums[j]+nums[k]+nums[l];
-                        if(sum==target){
+                        long sum = (long)nums[i]+(long)nums[j]+(long)nums[k]+(long)nums[l];
+                        if(sum==(long)target){
                             list.add(Arrays.asList(nums[i],nums[j],nums[k],nums[l]));
                             while(k<l&&nums[k]==nums[k+1]) k++;
                             while(k<l&&nums[l]==nums[l-1]) l--;
