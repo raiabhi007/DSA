@@ -4,11 +4,12 @@ class Solution {
         int ans = 0;
         int max = 0;
         int i=0;
-        for(int j=0;j<s.length();j++){
-            arr[s.charAt(j)-'A']++;
-            max = Math.max(max,arr[s.charAt(j)-'A']);
+        StringBuilder str = new StringBuilder(s);
+        for(int j=0;j<str.length();j++){
+            arr[str.charAt(j)-'A']++;
+            max = Math.max(max,arr[str.charAt(j)-'A']);
             if(j-i+1-max>k){
-                arr[s.charAt(i)-'A']--;
+                arr[str.charAt(i)-'A']--;
                 i++;
             }
             ans = Math.max(ans,j-i+1);
