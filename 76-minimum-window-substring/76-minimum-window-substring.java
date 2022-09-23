@@ -1,5 +1,6 @@
 class Solution {
-    public String minWindow(String s, String t) {
+    public String minWindow(String str, String t) {
+        StringBuilder s = new StringBuilder(str);
         HashMap<Character,Integer> map = new HashMap<>();
         for(char x:t.toCharArray()){
             map.put(x,map.getOrDefault(x,0)+1);
