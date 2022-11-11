@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 import java.util.*;
 import java.io.*;
 import java.lang.*;
@@ -48,39 +48,40 @@ class DriverClass
             System.out.println();
         }
     }
-}// } Driver Code Ends
-class Solution
-{   static class pair implements Comparable<pair>{
-        int v;
-        int wt;
-        public pair(int _v,int _wt){
-            v = _v;
-            wt = _wt;
-        }
-        public int compareTo(pair p){
-            return this.wt - p.wt;
-        }
+}
+// } Driver Code Ends
+
+class Pair{
+    int distance;
+    int node;
+    public Pair(int distance,int node){
+        this.distance = distance;
+        this.node  = node;
     }
-    
+}
+class Solution{
     static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S){
-        int[] ans = new int[V];
-        Arrays.fill(ans,Integer.MAX_VALUE);
-        ans[S] = 0;
-        
-        PriorityQueue<pair> pq = new PriorityQueue<>();
-        pq.add(new pair(S,0));
-        
-        while(pq.size()>0){
-            pair node = pq.poll();
+        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((x,y)-> x.distance-y.distance);
+        int dist[] = new int[V];
+        Arrays.fill(dist,Integer.MAX_VALUE);
+        dist[S] = 0;
+        pq.add(new Pair(0,S));
+        while(!pq.isEmpty()){
+            int dis = pq.peek().distance;
+            int node = pq.peek().node;
+            pq.remove();
             
-            for(ArrayList<Integer> x:adj.get(node.v)){
-                if(ans[node.v]+x.get(1)<ans[x.get(0)]){
-                    ans[x.get(0)] = ans[node.v]+x.get(1);
-                    pq.add(new pair(x.get(0),ans[x.get(0)]));
+            for(int i=0;i<adj.get(node).size();i++){
+                int edgeWeight = adj.get(node).get(i).get(1);
+                int adjNode = adj.get(node).get(i).get(0);
+                
+                if(dis+edgeWeight<dist[adjNode]){
+                    dist[adjNode] = dis+edgeWeight;
+                    pq.add(new Pair(dist[adjNode],adjNode));
                 }
             }
         }
-        return ans;
+        return dist;
     }
 }
 
