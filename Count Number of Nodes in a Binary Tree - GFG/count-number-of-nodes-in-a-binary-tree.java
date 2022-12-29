@@ -65,17 +65,35 @@ class GFG {
 
 class Solution {
 
-    public static int countNodes(Node root) {
-      int ans[] = new int[1];
-      inOrderTrav(root,ans);
-      return ans[0];
+    static int findHeightLeft(Node cur) {
+        int hght = 0; 
+        while(cur!=null) {
+            hght++; 
+            cur = cur.left; 
+        }
+        return hght; 
     }
-    static void inOrderTrav(Node  curr, int count[]) {
-        if (curr == null)
-        return;
 
-        count[0]++;
-        inOrderTrav(curr . left, count);
-        inOrderTrav(curr . right, count);
-   }
+static int findHeightRight(Node cur) {
+        int hght = 0; 
+        while(cur!=null) {
+            hght++; 
+            cur = cur.right; 
+        }
+        return hght; 
+    }
+
+static int countNodes(Node root) {
+        if(root == null) return 0; 
+        
+        int lh = findHeightLeft(root); 
+        int rh = findHeightRight(root); 
+        
+        if(lh == rh) return (1<<lh) - 1; 
+        
+        int leftNodes = countNodes(root.left);
+        int rightNodes = countNodes(root.right);
+        
+        return 1 + leftNodes + rightNodes; 
+    }
 }
