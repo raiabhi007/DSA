@@ -36,13 +36,21 @@ class Solution {
          return arr[0];
          if(n==2)
          return Math.max(arr[1],arr[0]); 
-      int[] dp = new int[n];
-      dp[0] = arr[0];
-      dp[1] = Math.max(arr[0],arr[1]);
-      for(int i=2;i<n;i++){
-          dp[i] = Math.max(dp[i-1],arr[i]+dp[i-2]);
-      }
-      return dp[n-1];
+    //   int[] dp = new int[n];
+    //   dp[0] = arr[0];
+    //   dp[1] = Math.max(arr[0],arr[1]);
+    //   for(int i=2;i<n;i++){
+    //       dp[i] = Math.max(dp[i-1],arr[i]+dp[i-2]);
+    //   }
+    //   return dp[n-1];
+         int a = arr[0];
+         int b = Math.max(arr[0],arr[1]);
+         for(int i=2;i<n;i++){
+             int c = Math.max(b,arr[i]+a);
+             a = b;
+             b = c;
+         }
+         return b;
     }
     // int helper(int[] arr,int n,int[] dp){
     //     if(n==1)
