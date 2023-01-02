@@ -31,25 +31,35 @@ class GFG{
 class Solution{
     public int minimizeCost(int arr[],int N,int K){
        int[] dp = new int[N];
-       Arrays.fill(dp,-1);
-       helper(arr,N,K,dp);
+       dp[0] = 0;
+       dp[1] = Math.abs(arr[1]-arr[0]);
+       for(int i=2;i<N;i++){
+           int min = Integer.MAX_VALUE;
+           for(int j=1;j<=K;j++){
+               if(j>i)
+               break;
+               int temp = Math.abs(arr[i]-arr[i-j])+dp[i-j];
+               min = Math.min(min,temp);
+           }
+           dp[i] = min;
+       }
        return dp[N-1];
     }
-    public int helper(int arr[],int N,int K,int[] dp){
-         if(N==1)
-        return 0;
-        if(N==2)
-        return dp[N-1]=Math.abs(arr[1]-arr[0]);
-        if(dp[N-1]!=-1)
-        return dp[N-1];
-        int min = Integer.MAX_VALUE;
-        for(int j=1;j<=K;j++){
-            if(j>=N){
-                break;
-            }
-            int temp = Math.abs(arr[N-1]-arr[N-1-j])+helper(arr,N-j,K,dp);
-            min = Math.min(temp,min);
-        }
-        return dp[N-1]=min;
-    }
+    // public int helper(int arr[],int N,int K,int[] dp){
+    //      if(N==1)
+    //     return 0;
+    //     if(N==2)
+    //     return dp[N-1]=Math.abs(arr[1]-arr[0]);
+    //     if(dp[N-1]!=-1)
+    //     return dp[N-1];
+    //     int min = Integer.MAX_VALUE;
+    //     for(int j=1;j<=K;j++){
+    //         if(j>=N){
+    //             break;
+    //         }
+    //         int temp = Math.abs(arr[N-1]-arr[N-1-j])+helper(arr,N-j,K,dp);
+    //         min = Math.min(temp,min);
+    //     }
+    //     return dp[N-1]=min;
+    // }
 }
