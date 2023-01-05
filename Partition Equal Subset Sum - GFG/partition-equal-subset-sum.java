@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 // Initial Template for Java
 
 import java.io.*;
@@ -24,31 +24,37 @@ class GFG{
                 System.out.println("NO");
         }
     }
-}// } Driver Code Ends
+}
+// } Driver Code Ends
+
+
+// User function Template for Java
+
 class Solution{
     static int equalPartition(int N, int arr[]){
-        long sumOfAllElements = 0;
+        int fullSum = 0;
         for(int i=0;i<N;i++){
-            sumOfAllElements+=arr[i];
+            fullSum+=arr[i];
         }
-        if(sumOfAllElements%2!=0)
+        int sum = 0;
+        if(fullSum%2==1)
         return 0;
-        int sum = (int)sumOfAllElements/2;
-        boolean dp[][] = new boolean[N+1][sum+1];
+        else
+        sum = fullSum/2;
+         boolean dp[][] = new boolean[N+1][sum+1];
         dp[0][0] = true;
-        
         for(int i=1;i<=N;i++){
             for(int j=0;j<=sum;j++){
                 if(j==0)
-                dp[i][j] = true;
-                else if(arr[i-1]>j)
-                dp[i][j] = dp[i-1][j];
-                else{
-                    if(dp[i-1][j-arr[i-1]]||dp[i-1][j])
+                dp[i][j]=true;
+                else if(j>=arr[i-1]){
+                    int rCap = j-arr[i-1];
+                    if(dp[i-1][rCap]==true||dp[i-1][j]==true)
                     dp[i][j] = true;
                     else
                     dp[i][j] = false;
-                }
+                }else
+                dp[i][j] = dp[i-1][j]; 
             }
         }
         return dp[N][sum]?1:0;
