@@ -6,13 +6,7 @@ class Solution {
         for(int i = 0; i < arr.length; i++){
             int count = 0;
             int n = arr[i];
-            while(n > 0){
-                if((n & 1) == 1){
-                    count++;
-                }
-                n >>= 1;
-            }
-            bits[i] = count;
+            bits[i] = counter(n);
         }
         int l = 0;
         for(int j = 0; j <= 14; j++){
@@ -26,5 +20,14 @@ class Solution {
             }
         }
         return ans;
+    }
+    int counter(int k){
+        int count = 0;
+        while(k>0){
+            int rsb = k& -k;
+            k-=rsb;
+            count++;
+        }
+        return count;
     }
 }
