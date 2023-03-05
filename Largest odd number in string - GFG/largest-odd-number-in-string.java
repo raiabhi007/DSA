@@ -19,15 +19,9 @@ class Main {
 
 
 class Solution {
-
-    String maxOdd(String S) {
-        String ans = "";
-        for(int i=0;i<S.length();i++){
-            int num = S.charAt(i)-'0';
-            if((num&1)!=0){
-                ans = S.substring(0,i+1);
-            }
-        }
-        return ans;
+    String maxOdd(String num) {
+        for(int i=num.length() - 1; i>=0; i--)
+		if(num.charAt(i) % 2 != 0) return num.substring(0, i + 1);
+	return "";
     }
 }
