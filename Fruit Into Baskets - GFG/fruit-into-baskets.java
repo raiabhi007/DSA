@@ -27,27 +27,21 @@ class GFG {
 // } Driver Code Ends
 
 class Solution {
-	public static int totalFruits(int N, int[] fruits) {
-		int i = 0;
-		int maxCount = 0;
-		//Hash Map me only 2 type ke fruit lene hai... unki frequency store krni hai
-		HashMap<Integer, Integer> map = new HashMap<>();
-		for (int j = 0; j < fruits.length; j++) {
-		    //agr koi fruit mila jo map me nhi hai to i++ kro jbb tkk koi naya fruit aane ki space na bnn jaye
-			if (!map.containsKey(fruits[j]) && map.size() >= 2) {
-				while (map.size() != 1) {
-					map.put(fruits[i], map.get(fruits[i]) - 1);
-					if (map.get(fruits[i]) == 0) {
-						map.remove(fruits[i]);
-					}
-					i++;
-				}
-			}
-            //add new fruit to basket
-			map.put(fruits[j], map.getOrDefault(fruits[j], 0) + 1);
-			//hrr tree se ek hi fruit lena hai, to j-i+1 ka max hi maxfruit store hoga
-			maxCount = Math.max((j - i + 1), maxCount);
-		}
-		return maxCount;
+	public static int totalFruits(int N, int[] tree) {
+	 int[] cnt = new int[tree.length+10];
+        int res = 0;
+        int k = 2;
+        for(int i=0, j=0; j<tree.length; j++) {
+            if(cnt[tree[j]]++ == 0) {
+                k--;
+            }
+            while(k < 0) {
+                if(--cnt[tree[i++]] == 0) {
+                    k++;
+                }
+            }
+            res = Math.max(res, j - i + 1);
+        }
+        return res;
 	}
 }
