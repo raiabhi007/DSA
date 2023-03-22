@@ -1,24 +1,27 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
-        for(int i=0;i<nums.length;i++){
-            if(!map.containsKey(nums[i])){
-                map.put(nums[i],1);
-            }else{
-                int c = map.get(nums[i]);
-                map.put(nums[i],++c);
-            }
+        Map<Integer, Integer> count = new HashMap<>();
+        List<Integer> bucket[] = new ArrayList[nums.length + 1];                
+        
+        for (int num : nums)
+            count.merge(num, 1, Integer::sum);
+        
+        for (int key : count.keySet()){
+            int freq = count.get(key);
+            if (bucket[freq] == null)
+                bucket[freq] = new ArrayList<>();
+            bucket[freq].add(key);
         }
-        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>( (a, b)->a.getValue() - b.getValue());
-        int[] ans = new int[k];
-        for (Map.Entry<Integer, Integer> it : map.entrySet()) {
-            pq.add(it);
-            if (pq.size() > k) pq.poll();
-        }
-        int i = k;
-        while (!pq.isEmpty()) {
-            ans[--i] = pq.poll().getKey();
-        }
-        return ans;
+        
+        int index = 0;
+        int[] res = new int[k];
+        for (int i = nums.length; i >= 0; i--)
+            if (bucket[i] != null)
+                for (int val : bucket[i]){
+                    res[index++] = val;
+                    if(index == k)
+                        return res;
+                }
+        return res;
     }
 }
