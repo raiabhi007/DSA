@@ -34,14 +34,14 @@ class Solution{
     public int minimumEnergy(int arr[],int N){
         if(N==1)
         return 0;
-        int dp[] = new int[N];
-        dp[0] = 0;
-        dp[1] = Math.abs(arr[1]-arr[0]);
+        int a = 0;
+        int b = Math.abs(arr[1]-arr[0]);
         for(int i=2;i<N;i++){
-            int a = Math.abs(arr[i]-arr[i-1])+dp[i-1];
-            int b = Math.abs(arr[i]-arr[i-2])+dp[i-2];
-            dp[i] = Math.min(a,b);
+            int c = Math.abs(arr[i]-arr[i-1])+b;
+            int d =  Math.abs(arr[i]-arr[i-2])+a;
+            a = b;
+            b = Math.min(c,d);
         }
-        return dp[N-1];
+        return b;
     }
 }
