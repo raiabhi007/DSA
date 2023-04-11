@@ -31,27 +31,17 @@ class GFG{
 //User function Template for Java
 
 class Solution{
-    public int minimumEnergy(int height[],int N){
-       int[] dp = new int[N];
-       dp[0] = 0;
-       dp[1] = Math.abs(height[1]-height[0]);
-       for(int i=2;i<N;i++){
-           int first = Math.abs(height[i]-height[i-1])+dp[i-1];
-           int second = Math.abs(height[i]-height[i-2])+dp[i-2];
-           dp[i] = Math.min(first,second);
-       }
-       return dp[N-1];
+    public int minimumEnergy(int arr[],int N){
+        if(N==1)
+        return 0;
+        int dp[] = new int[N];
+        dp[0] = 0;
+        dp[1] = Math.abs(arr[1]-arr[0]);
+        for(int i=2;i<N;i++){
+            int a = Math.abs(arr[i]-arr[i-1])+dp[i-1];
+            int b = Math.abs(arr[i]-arr[i-2])+dp[i-2];
+            dp[i] = Math.min(a,b);
+        }
+        return dp[N-1];
     }
-    // public int helper(int height[],int N,int[] dp){
-    //      if(N==2)
-    //     return dp[N-1]=Math.abs(height[1]-height[0]);
-    //     if(N==1){
-    //         return dp[N-1]=0;
-    //     }
-    //     if(dp[N-1]!=-1)
-    //     return dp[N-1];
-    //     int first = Math.abs(height[N-1]-height[N-2])+helper(height,N-1,dp);
-    //     int second = Math.abs(height[N-1]-height[N-3])+helper(height,N-2,dp);
-    //     return dp[N-1]=Math.min(first,second);
-    // }
 }
