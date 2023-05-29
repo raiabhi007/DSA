@@ -31,12 +31,13 @@ import java.io.*;
 
 class Solution {
     boolean arraySortedOrNot(int[] arr, int n) {
-        if (n == 0 || n == 1)
-            return true;
- 
-        for (int i = 1; i < n; i++)
-            if (arr[i - 1] > arr[i])
-                return false;
+        return helper(arr,0,arr[0]);
+    }
+    boolean helper(int arr[],int i, int max){
+        if(i==arr.length)
         return true;
+        if(max>arr[i])
+        return false;
+        return helper(arr,i+1,arr[i]);
     }
 }
