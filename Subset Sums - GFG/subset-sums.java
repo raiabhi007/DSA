@@ -30,18 +30,20 @@ class GFG
 
 // } Driver Code Ends
 
+
+//User function Template for Java//User function Template for Java
 class Solution{
     ArrayList<Integer> subsetSums(ArrayList<Integer> arr, int N){
         ArrayList<Integer> ans = new ArrayList<>();
-        solve(arr,0,0,ans);
+        helper(arr,0,0,ans);
         return ans;
     }
-    void solve(ArrayList<Integer> arr, int i,int sum,ArrayList<Integer> ans){
-        if(arr.size()==i){
+    void helper(ArrayList<Integer> arr, int idx,int sum,ArrayList<Integer> ans){
+        if(idx==arr.size()){
             ans.add(sum);
             return;
         }
-        solve(arr,i+1,sum,ans);
-        solve(arr,i+1,sum+arr.get(i),ans);
+        helper(arr,idx+1,sum,ans);
+        helper(arr,idx+1,sum+arr.get(idx),ans);
     }
 }
