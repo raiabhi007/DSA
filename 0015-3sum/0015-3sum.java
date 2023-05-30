@@ -12,7 +12,7 @@ class Solution {
             while(j<k){
                 if(nums[j]+nums[k]==sum){
                     list.add(Arrays.asList(nums[i],nums[j],nums[k]));
-                    while(j>k&&nums[j]==nums[j+1]) j++;
+                    while(j<k&&nums[j]==nums[j+1]) j++;
                     while(j<k&&nums[k]==nums[k-1]) k--;
                     j++;
                     k--;
