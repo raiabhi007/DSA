@@ -1,8 +1,8 @@
 class Solution {
     int mod = 1000000007;
     public int numberOfWays(int startPos, int endPos, int k) {
-        int[][] dp = new int[5001][1001];
-        for(int i=0;i<5001;i++){
+        int[][] dp = new int[3001][1001];
+        for(int i=0;i<3001;i++){
             for(int j=0;j<1001;j++)
                 dp[i][j] = -1;
         }
