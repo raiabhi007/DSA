@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 import java.util.LinkedList; 
 import java.util.Queue; 
 import java.io.*;
@@ -102,29 +102,39 @@ class GfG {
         }
     }
 }
+
 // } Driver Code Ends
+
+
+//User function Template for Java
+
+/* A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}*/
 class Tree
 {
+    //Function to return list containing elements of left view of binary tree.
     ArrayList<Integer> leftView(Node root){
-      ArrayList<Integer> ans = new ArrayList<>();
-      if(root==null)
-      return ans;
-      Queue<Node> q = new LinkedList<>();
-      q.add(root);
-      while(!q.isEmpty()){
-          int size = q.size();
-          int i=0;
-          while(i<size){
-              Node cur = q.remove();
-                if(i==0)
-               ans.add(cur.data);
-                if(cur.left!=null)
-                q.add(cur.left);
-                if(cur.right!=null)
-                q.add(cur.right);
-                i++;
-            }
-        }
+        ArrayList<Integer> ans = new ArrayList<>();
+        helper(root,ans,0);
         return ans;
+    }
+    void helper(Node root, ArrayList<Integer> ans,int level){
+        if(root==null)
+        return;
+        if(level==ans.size()){
+            ans.add(root.data);
+        }
+        helper(root.left,ans,level+1);
+        helper(root.right,ans,level+1);
     }
 }
