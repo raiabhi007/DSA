@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 //Initial Template for JAVA
 
 import java.util.LinkedList; 
@@ -105,40 +105,50 @@ public class Tree {
                 t--;   
         }
     }
-}// } Driver Code Ends
- class Pair{
-    Node node = null;
-    int hl = 0;
-    Pair(Node node,int hl){
-        this.node = node;
-        this.hl = hl;
+}
+// } Driver Code Ends
+
+/*
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node(int data){
+        this.data = data;
+        left=null;
+        right=null;
     }
 }
-class Solution
-{
-    static ArrayList<Integer> topView(Node root)
-    {
-        ArrayList<Integer> ans = new ArrayList<>();
-        if(root==null)
-        return ans;
-        TreeMap<Integer,ArrayList<Integer>> map = new TreeMap<>();
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(root,0));
+*/
+class Tuple{
+    Node node;
+    int x;
+    public Tuple(Node node,int x){
+        this.node = node;
+        this.x = x;
+    }
+}
+
+class Solution{
+    static ArrayList<Integer> topView(Node root){
+        TreeMap<Integer, ArrayList<Integer>> map = new TreeMap<>();
+        Queue<Tuple> q = new LinkedList<>();
+        q.add(new Tuple(root,0));
         while(!q.isEmpty()){
-            int size = q.size();
-            while(size-->0){
-                Pair cur = q.poll();
-                if(map.get(cur.hl)==null)
-                map.put(cur.hl,new ArrayList<>());
-                map.get(cur.hl).add(cur.node.data);
-                if(cur.node.left!=null)
-                q.add(new Pair(cur.node.left,cur.hl-1));
-                if(cur.node.right!=null)
-                q.add(new Pair(cur.node.right,cur.hl+1));
-            }
+            Tuple cur = q.poll();
+            Node node = cur.node;
+            int x = cur.x;
+            if(!map.containsKey(x))
+            map.put(x,new ArrayList<>());
+            map.get(x).add(node.data);
+            if(node.left!=null)
+            q.add(new Tuple(node.left,x-1));
+            if(node.right!=null)
+            q.add(new Tuple(node.right,x+1));
         }
-        for (Map.Entry<Integer,ArrayList<Integer>> entry : map.entrySet())
-            ans.add(entry.getValue().get(0));
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(ArrayList<Integer> temp:map.values())
+        ans.add(temp.get(0));
         return ans;
     }
 }
