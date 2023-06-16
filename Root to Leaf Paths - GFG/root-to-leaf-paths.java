@@ -134,30 +134,28 @@ class Node{
 
 */
 class Tree{
-    public boolean isLeaf(Node root){
-        return root.left==null&&root.right==null;
+    boolean isLeaf(Node node){
+        return node.left==null&&node.right==null;
     }
+    
     public ArrayList<ArrayList<Integer>> Paths(Node root){
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        if(root==null)
-        return ans;
         ArrayList<Integer> list = new ArrayList<>();
         helper(root,list,ans);
         return ans;
     }
-    public void helper(Node root,ArrayList<Integer> list,ArrayList<ArrayList<Integer>> ans){
+    public void helper(Node root,ArrayList<Integer> list, ArrayList<ArrayList<Integer>> ans){
         if(root==null)
         return;
-        list.add(root.data);
         if(isLeaf(root)){
+            list.add(root.data);
             ans.add(new ArrayList<>(list));
             list.remove(list.size()-1);
             return;
         }
+        list.add(root.data);
         helper(root.left,list,ans);
         helper(root.right,list,ans);
         list.remove(list.size()-1);
-        
     }
-    
 }
