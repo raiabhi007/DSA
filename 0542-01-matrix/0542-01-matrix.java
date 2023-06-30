@@ -1,41 +1,43 @@
-class Pair{
+class Node{
     int row;
     int col;
-    public Pair(int row,int col){
-        this.row = row;
-        this.col = col;
+    int dis;
+    public Node(int r,int c,int d){
+        this.row = r;
+        this.col = c;
+        this.dis = d;
     }
 }
+
 class Solution {
-    int[][] dir = {{0,1},{1,0},{0,-1},{-1,0}};
     public int[][] updateMatrix(int[][] mat) {
         int n = mat.length;
         int m = mat[0].length;
-        int[][] ans = new int[n][m];
-        Queue<Pair> q = new LinkedList<>();
-        int level = 0;
+        boolean vis[][] = new boolean[n][m];
+        Queue<Node> q = new LinkedList<>();
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(mat[i][j]==0)
-                    q.add(new Pair(i,j));
-            }
-        }
-        while(!q.isEmpty()){
-            level++;
-            int size = q.size();
-            while(size-->0){
-                Pair rem = q.poll();
-                for(int i=0;i<4;i++){
-                    int rowDash = rem.row+ dir[i][0];
-                    int colDash = rem.col+ dir[i][1];
-                   if(rowDash<0||colDash<0||rowDash>=n||colDash>=m||mat[rowDash][colDash]==0)
-                       continue;
-                    q.add(new Pair(rowDash,colDash));
-                    mat[rowDash][colDash] = 0;
-                    ans[rowDash][colDash] = level;
+                if(mat[i][j]==0){
+                    vis[i][j] = true;
+                    q.add(new Node(i,j,0));
                 }
             }
         }
-        return ans;
+        int row[] = {-1,0,1,0};
+        int col[] = {0,-1,0,1};
+        
+        while(!q.isEmpty()){
+            Node cur = q.poll();
+            for(int i=0;i<4;i++){
+                int newRow = cur.row+row[i];
+                int newCol = cur.col+col[i];
+                if(newRow>=0&&newRow<n&&newCol>=0&&newCol<m&&vis[newRow][newCol]==false){
+                    mat[newRow][newCol] = cur.dis+1;
+                    q.add(new Node(newRow,newCol,cur.dis+1));
+                    vis[newRow][newCol] = true;
+                }
+            }
+        }
+        return mat;
     }
 }
