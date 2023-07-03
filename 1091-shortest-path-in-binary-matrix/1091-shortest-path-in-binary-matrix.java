@@ -1,34 +1,38 @@
-public class Pair{   
+class Pair{
     int row;
     int col;
-    Pair(int row,int col){
+    public Pair(int row,int col){
         this.row = row;
-        this.col = col;
+        this.col  = col;
     }
 }
+
 class Solution {
-    int[][] dir = {{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0}};
     public int shortestPathBinaryMatrix(int[][] grid) {
         int n = grid.length;
         if(grid[0][0]==1||grid[n-1][n-1]==1)
             return -1;
-        int level = 0;
+        int level=0;
         Queue<Pair> q = new LinkedList<>();
         q.add(new Pair(0,0));
+        int row[] = {-1,0,1,0,-1,-1,1,1};
+        int col[] = {0,-1,0,1,-1,1,-1,1};
         while(!q.isEmpty()){
-             level+=1;
-             int size = q.size();
+            level+=1;
+            int size = q.size();
             while(size-->0){
-                Pair rem = q.poll();
-                if(rem.row==n-1&&rem.col==n-1)
+                int r = q.peek().row;
+                int c = q.peek().col;
+                if(r==n-1&&c==n-1)
                     return level;
+                q.remove();
                 for(int i=0;i<8;i++){
-                    int rowDash = rem.row + dir[i][0];
-                    int colDash = rem.col + dir[i][1];
-                    if(rowDash<0||rowDash>=n||colDash<0||colDash>=n||grid[rowDash][colDash]==1)
+                    int nrow = r+row[i];
+                    int ncol = c+col[i];
+                    if(nrow<0||nrow>=n||ncol<0||ncol>=n||grid[nrow][ncol]==1)
                         continue;
-                    q.add(new Pair(rowDash,colDash));
-                    grid[rowDash][colDash] = 1;
+                    q.add(new Pair(nrow,ncol));
+                    grid[nrow][ncol] = 1;
                 }
             }
         }
