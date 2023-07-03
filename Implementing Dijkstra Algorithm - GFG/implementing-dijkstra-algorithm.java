@@ -51,32 +51,35 @@ class DriverClass
 }
 // } Driver Code Ends
 
+
+//User function Template for Java
 class Pair{
     int distance;
     int node;
     public Pair(int distance,int node){
         this.distance = distance;
-        this.node  = node;
+        this.node = node;
     }
 }
+
 class Solution{
     static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S){
-        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((x,y)-> x.distance-y.distance);
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->(a.distance-b.distance));
         int dist[] = new int[V];
-        Arrays.fill(dist,Integer.MAX_VALUE);
+        for(int i=0;i<V;i++) dist[i] = (int)1e9;
         dist[S] = 0;
         pq.add(new Pair(0,S));
         while(!pq.isEmpty()){
-            int dis = pq.peek().distance;
             int node = pq.peek().node;
+            int distance = pq.peek().distance;
             pq.remove();
             
             for(int i=0;i<adj.get(node).size();i++){
                 int edgeWeight = adj.get(node).get(i).get(1);
                 int adjNode = adj.get(node).get(i).get(0);
                 
-                if(dis+edgeWeight<dist[adjNode]){
-                    dist[adjNode] = dis+edgeWeight;
+                if(dist[adjNode]>distance+edgeWeight){
+                    dist[adjNode] = distance+edgeWeight;
                     pq.add(new Pair(dist[adjNode],adjNode));
                 }
             }
