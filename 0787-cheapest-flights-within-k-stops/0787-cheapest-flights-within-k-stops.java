@@ -1,5 +1,4 @@
-class Pair
-{
+class Pair{
     int stops;
     int node;
     int dist;
@@ -10,8 +9,8 @@ class Pair
         dist=dis;
     }
 }
-class Pairs
-{
+
+class Pairs{
     int stop;
     int distance;
     public Pairs(int s,int d)
@@ -20,24 +19,23 @@ class Pairs
         distance=d;
     }
 }
-class Solution 
-{
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) 
-    {
-        List<List<Pairs>> adj=new ArrayList<>();
+
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+          List<List<Pairs>> adj=new ArrayList<>();
         for(int i=0;i<n;i++)  adj.add(new ArrayList<Pairs>());
-        for(int i=0;i<flights.length;i++)
-        {
+        for(int i=0;i<flights.length;i++){
             int[] curr=flights[i];
             List<Pairs> lst=adj.get(flights[i][0]);
             lst.add(new Pairs(flights[i][1],flights[i][2]));
         }
+        
         Queue<Pair> que=new LinkedList<>();
         int[] dist=new int[n];
         Pair start=new Pair(0,src,0);
         que.add(start);
         Arrays.fill(dist,Integer.MAX_VALUE);
-        while(!que.isEmpty())
+         while(!que.isEmpty())
         {
             Pair top=que.peek();
             que.remove();
