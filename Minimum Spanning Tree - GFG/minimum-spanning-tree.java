@@ -1,81 +1,96 @@
 //{ Driver Code Starts
+
+
 import java.util.*;
 import java.io.*;
 import java.lang.*;
 
-class DriverClass
-{
+public class Main{
+	static BufferedReader br;
+	static PrintWriter ot;
     public static void main(String args[]) throws IOException {
-
-        BufferedReader read =
-            new BufferedReader(new InputStreamReader(System.in));
-        int t = Integer.parseInt(read.readLine());
-        while (t-- > 0) {
-            String str[] = read.readLine().trim().split(" ");
-            int V = Integer.parseInt(str[0]);
-            int E = Integer.parseInt(str[1]);
-    
-            ArrayList<ArrayList<ArrayList<Integer>>> adj = new ArrayList<ArrayList<ArrayList<Integer>>>();
-            for(int i=0;i<V;i++)
-            {
-                adj.add(new ArrayList<ArrayList<Integer>>());
-            }
-            
-            int i=0;
-            while (i++<E) {
-                String S[] = read.readLine().trim().split(" ");
-                int u = Integer.parseInt(S[0]);
-                int v = Integer.parseInt(S[1]);
-                int w = Integer.parseInt(S[2]);
-                ArrayList<Integer> t1 = new ArrayList<Integer>();
-                ArrayList<Integer> t2 = new ArrayList<Integer>();
-                t1.add(v);
-                t1.add(w);
-                t2.add(u);
-                t2.add(w);
-                adj.get(u).add(t1);
-                adj.get(v).add(t2);
-            }
-            
-            Solution ob = new Solution();
-            
-            System.out.println(ob.spanningTree(V, adj));
-        }
-    }
+		br = new BufferedReader(new InputStreamReader(System.in));
+		ot = new PrintWriter(System.out);
+		int t = Integer.parseInt(br.readLine().trim());
+		while(t-- > 0){
+			String s[] = br.readLine().trim().split(" ");
+			int V = Integer.parseInt(s[0]);
+			int E = Integer.parseInt(s[1]);
+			int edges[][] = new int[E][3];
+			for(int i = 0; i < E; i++){
+				s = br.readLine().trim().split(" ");
+				edges[i][0] = Integer.parseInt(s[0]);
+				edges[i][1] = Integer.parseInt(s[1]);
+				edges[i][2] = Integer.parseInt(s[2]);
+			}
+			ot.println(new Solution().spanningTree(V, E, edges));
+		}
+		ot.close();
+	}
 }
 // } Driver Code Ends
 
-class Pair{
-    int node;
-    int distance;
-    public Pair(int node,int distance){
-        this.node = node;
-        this.distance = distance;
+class Edge implements Comparable<Edge> {
+    int src, dest, weight;
+    Edge(int _src, int _dest, int _wt) {
+        this.src = _src; this.dest = _dest; this.weight = _wt;
+    }
+    // Comparator function used for
+    // sorting edgesbased on their weight
+    public int compareTo(Edge compareEdge) {
+        return this.weight - compareEdge.weight;
+    }
+};
+
+class DisjointSet{
+    List<Integer> size = new ArrayList<>();
+    List<Integer> parent = new ArrayList<>();
+    
+    public DisjointSet(int n){
+        for(int i=0;i<=n;i++){
+            size.add(1);
+            parent.add(i);
+        }
+    }
+    public int findUPar(int node){
+        if(node==parent.get(node)) return node;
+        int ulp = findUPar(parent.get(node));
+        parent.set(node,ulp);
+        return ulp;
+    }
+    
+    public void unionBySize(int u,int v){
+        int ulp_u = parent.get(u);
+        int ulp_v = parent.get(v);
+        if(ulp_v==ulp_u) return;
+        if(size.get(ulp_u)<size.get(ulp_v)){
+            parent.set(ulp_u,ulp_v);
+            size.set(ulp_v,size.get(ulp_u)+size.get(ulp_v));
+        }else{
+            parent.set(ulp_v,ulp_u);
+            size.set(ulp_u,size.get(ulp_u)+size.get(ulp_v));
+        }
     }
 }
-
-class Solution
-{
-    //Function to find sum of weights of edges of the Minimum Spanning Tree.
-    static int spanningTree(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj) {
-        PriorityQueue<Pair> pq = new PriorityQueue<>((x,y)->x.distance-y.distance);
-        int[] vis = new int[V];
-        pq.add(new Pair(0,0));
-        int sum = 0;
-        while(!pq.isEmpty()){
-            int wt = pq.peek().distance;
-            int node = pq.peek().node;
-            pq.remove();
-            if(vis[node]==1) continue;
-            vis[node] = 1;
-            sum+=wt;
-            for(int i=0;i<adj.get(node).size();i++){
-                int edw = adj.get(node).get(i).get(1);
-                int adjNode = adj.get(node).get(i).get(0);
-                if(vis[adjNode]==0)
-                pq.add(new Pair(adjNode,edw));
-            }
-        }
-        return sum;
-    }
+class Solution{
+	static int spanningTree(int V, int E, int edges[][]){
+	    ArrayList<Edge> Edges = new ArrayList<Edge>();
+	    for(int i=0;i<E;i++){
+	        Edges.add(new Edge(edges[i][0],edges[i][1],edges[i][2]));
+	    }
+	    Collections.sort(Edges);
+	    int mstWt = 0;
+	    DisjointSet ds = new DisjointSet(V);
+	    
+	    for(int i=0;i<Edges.size();i++){
+	        int wt = Edges.get(i).weight;
+	        int u = Edges.get(i).src;
+	        int v = Edges.get(i).dest;
+	        if(ds.findUPar(u)!=ds.findUPar(v)){
+	            ds.unionBySize(u,v);
+	            mstWt+=wt;
+	        }
+	    }
+	    return mstWt;
+	}
 }
