@@ -4,31 +4,30 @@ class Solution {
         int high = 0;
         for(int i=0;i<weights.length;i++)
             high+=weights[i];
-        int ans = -1;
+        int ans = 0;
         while(low<=high){
-            int mid = low+(high-low)/2;
-            if(isPossible(weights,days,mid)){
+            int mid = (low+high)/2;
+            if(isPossible(weights,mid,days)){
                 ans = mid;
                 high = mid-1;
-            }else
+            }else{
                 low = mid+1;
+            }
         }
         return ans;
     }
-    public boolean isPossible(int arr[], int days,int minCapacity){
-        int minDays = 1;
-        int sum = 0;
-        for(int i=0;i<arr.length;i++){
-            if(minCapacity<arr[i])
+    public boolean isPossible(int[] weights,int mid,int days){
+        int tempWeight = 0;
+        int totalDays = 1;
+        for(int i=0;i<weights.length;i++){
+            if(weights[i]>mid)
                 return false;
-            if(sum+arr[i]>minCapacity){
-                sum = arr[i];
-                minDays++;
-            }else
-                sum+=arr[i];
+            tempWeight+=weights[i];
+            if(tempWeight>mid){
+                tempWeight = weights[i];
+                totalDays++;
+            }
         }
-        if(minDays<=days)
-            return true;
-        return false;
+        return totalDays<=days;
     }
 }
