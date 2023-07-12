@@ -31,43 +31,42 @@ class GFG {
 
 //User function Template for Java
 
-class Solution 
-{
-    static boolean isPossible(int[] arr,int students,int pages){
-        int count = 0;
-        int sumAllocated = 0;
-        for(int i=0;i<arr.length;i++){
-            if(sumAllocated+arr[i]>pages){
-                count++;
-                sumAllocated = arr[i];
-                if(arr[i]>pages) return false;
-            }else
-            sumAllocated+=arr[i];
-        }
-        if(count<students)
-        return true;
-        return false;
-    }
-    public static int findPages(int[] arr,int N,int M)
-    {
+class Solution {
+    
+    public static int findPages(int[]A,int N,int M){
         if(M>N)
         return -1;
         int low = 0;
-        int high  = 0;
-        int res = 0;
+        int high = 0;
         for(int i=0;i<N;i++){
-            low = Math.min(low,arr[i]);
-            high+=arr[i];
+            low=Math.min(low,A[i]);
+            high+=A[i];
         }
+        int ans = -1;
         while(low<=high){
-            int mid = low+(high-low)/2;
-            if(isPossible(arr,M,mid)){
-                res = mid;
+            int mid = (low+high)/2;
+            if(isPossible(A,mid,M)){
+                ans = mid;
                 high = mid-1;
-            }else
-            low = mid+1;
+            }else{
+                low = mid+1;
+            }
         }
-        //res is also an answer
-        return low;
+        return ans;
+    }
+    
+    static boolean isPossible(int arr[],int mid, int M){
+        int tempPages=0;
+        int totalStudents = 0;
+        for(int i=0;i<arr.length;i++){
+            if(arr[i]>mid)
+            return false;
+            tempPages+=arr[i];
+            if(tempPages>mid){
+                totalStudents++;
+                tempPages = arr[i];
+            }
+        }
+        return totalStudents<M;
     }
 };
