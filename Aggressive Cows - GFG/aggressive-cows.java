@@ -32,34 +32,33 @@ class GFG {
 
 
 // User function Template for Java
-
-
-// User function Template for Java
 class Solution {
-    public static boolean isPossible(int arr[],int cows,int  minDist){
-        int countCows = 1;
+    public static int solve(int n, int k, int[] stalls) {
+        
+        Arrays.sort(stalls);
+        int low = 0;
+        int high = stalls[stalls.length-1];
+        int ans = -1;
+        while(low<=high){
+            int mid = (low+high)/2;
+            if(isPossible(stalls,mid,k)){
+                ans = mid;
+                low = mid+1;
+            }else{
+                high = mid-1;
+            }
+        }
+        return ans;
+    }
+    public static boolean isPossible(int[] arr,int mid,int k){
+        int tempK = 1;
         int lastPlacedCow = arr[0];
         for(int i=1;i<arr.length;i++){
-            if(arr[i]-lastPlacedCow>=minDist){
-                countCows++;
+            if(arr[i]-lastPlacedCow>=mid){
+                tempK++;
                 lastPlacedCow = arr[i];
             }
         }
-        if(countCows>=cows) return true;
-        return false;
-    }
-    public static int solve(int n, int k, int[] arr) {
-        if(k>n)
-        return -1;
-        Arrays.sort(arr);
-        int low = 1,high=arr[n-1]-arr[0];
-        while(low<=high){
-            int mid = low +(high-low)/2;
-            if(isPossible(arr,k,mid)){
-                low = mid+1;
-            }else
-            high = mid-1;
-        }
-        return high;
+        return tempK>=k;
     }
 }
