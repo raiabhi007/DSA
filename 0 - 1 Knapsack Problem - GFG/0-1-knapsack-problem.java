@@ -49,23 +49,26 @@ class gfg
 class Solution 
 { 
     //Function to return max value that can be put in knapsack of capacity W.
-    static int knapSack(int W, int wt[], int val[], int n){ 
-         int dp[][] = new int[n+1][W+1];
-         for(int i=1;i<=n;i++){
-             for(int j=1;j<=W;j++){
-                 if(j>=wt[i-1]){
-                     int rCap = j-wt[i-1];
-                     if(dp[i-1][j]<val[i-1]+dp[i-1][rCap])
-                     dp[i][j] = val[i-1]+dp[i-1][rCap];
-                     else
-                     dp[i][j] = dp[i-1][j];
-                 }else{
-                     dp[i][j] = dp[i-1][j];
-                 }
-             }
-         }
-         return dp[n][W];
-    } 
+    static int knapSack(int W, int wt[], int val[], int n) { 
+      int[][] dp = new int[n][W+1];
+      for(int i=0;i<n;i++)
+      Arrays.fill(dp[i],-1);
+      return helper(W,wt,val,n,dp);
+    }
+    static int helper(int W,int wt[],int[] val, int n, int[][] dp){
+          if(n==0)
+        return 0;
+        if(dp[n-1][W]!=-1)
+        return dp[n-1][W];
+        
+        if(W<wt[n-1]){
+            return dp[n-1][W] = helper(W,wt,val,n-1,dp);
+        }else{
+            int include = helper(W-wt[n-1],wt,val,n-1,dp)+val[n-1];
+            int exclude = helper(W,wt,val,n-1,dp);
+            return dp[n-1][W]=Math.max(include,exclude);
+        }
+    }
 }
 
 
