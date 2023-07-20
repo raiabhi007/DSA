@@ -1,39 +1,38 @@
 class Solution {
     public int cherryPickup(int[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
-        int[][][] dp = new int[n][m][m];
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                for(int k=0;k<m;k++)
-                dp[i][j][k]=-1;
-            }
+        int[][][] dp = new int[grid.length][grid[0].length][grid[0].length];
+         for (int row1[][]: dp) {
+      for (int row2[]: row1) {
+        Arrays.fill(row2, -1);
+      }
         }
-        return helper(0,0,m-1,n,m,grid,dp);
+        return helper(grid,0,0,grid[0].length-1,dp);
     }
-     public int helper(int i,int j1,int j2,int n,int m,int[][] grid,int[][][] dp){
-        if(j1<0||j1>=m||j2<0||j2>=m)
-        return (int)Math.pow(-10,9);
-        if(i==n-1){
-            if(j1==j2)
-            return grid[i][j1];
-            else
-            return grid[i][j1]+grid[i][j2];
-        }
-        if(dp[i][j1][j2]!=-1)
-        return dp[i][j1][j2];
-        int maxi=Integer.MIN_VALUE;
         
-        for(int di=-1;di<=1;di++){
-            for(int dj=-1;dj<=1;dj++){
-                int ans;
+    int helper(int[][] grid,int i,int j1,int j2,int[][][] dp){
+        
+        if(j1<0||j1>=grid[0].length||j2<0||j2>=grid[0].length)
+            return Integer.MIN_VALUE;
+        if(dp[i][j1][j2]!=-1)
+            return dp[i][j1][j2];
+            if(i==grid.length-1){
                 if(j1==j2)
-                ans = grid[i][j1]+helper(i+1,j1+di,j2+dj,n,m,grid,dp);
+                    return dp[i][j1][j2]=grid[i][j1];
                 else
-                ans = grid[i][j1]+grid[i][j2]+helper(i+1,j1+di,j2+dj,n,m,grid,dp);
-                maxi = Math.max(maxi,ans);
+                    return dp[i][j1][j2]=grid[i][j1]+grid[i][j2];
+            }
+        int maxi = Integer.MIN_VALUE;
+        
+        for(int d1=-1;d1<=1;d1++){
+            int ans = Integer.MIN_VALUE;
+            for(int d2=-1;d2<=1;d2++){
+                if(j1==j2)
+                    ans = grid[i][j1]+helper(grid,i+1,j1+d1,j2+d2,dp);
+                else
+                    ans = grid[i][j1]+grid[i][j2]+helper(grid,i+1,j1+d1,j2+d2,dp);
+                maxi = Math.max(ans,maxi);
             }
         }
-        return dp[i][j1][j2] = maxi;
+        return dp[i][j1][j2]=maxi;
     }
 }
