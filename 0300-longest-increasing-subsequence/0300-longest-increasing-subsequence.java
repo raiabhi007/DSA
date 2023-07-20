@@ -1,34 +1,18 @@
 class Solution {
-    int lowerBound(ArrayList<Integer> list,int key){
-        int lb = 0;
-        int low = 0;
-        int high = list.size()-1;
-        int mid;
-        
-        while(low<high){
-            mid = (high+low)/2;
-            if(key<=list.get(mid)){
-                high = mid;
-                lb = mid;
-            }else
-                low = mid+1;
-        }
-        return low;
-    }
     public int lengthOfLIS(int[] nums) {
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(nums[0]);
-        int len = 1;
-        
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]>list.get(list.size()-1)){
-                list.add(nums[i]);
-                len++;
-            }else{
-                int idx = lowerBound(list,nums[i]);
-                 list.set(idx,nums[i]);
+        int n = nums.length;
+        int dp[] = new int[n];
+        dp[0] = 1;
+        int ans = 1;
+        for(int i=1;i<n;i++){
+            int maxi = 0;
+            for(int j=i-1;j>=0;j--){
+                if(nums[i]>nums[j])
+                maxi = Math.max(maxi,dp[j]);
             }
+            dp[i]=maxi+1;
+            ans = Math.max(ans,dp[i]);
         }
-        return len;
+        return ans;
     }
 }
