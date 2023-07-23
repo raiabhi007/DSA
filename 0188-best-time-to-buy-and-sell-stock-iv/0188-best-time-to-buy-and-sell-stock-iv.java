@@ -1,14 +1,17 @@
 class Solution {
     public int maxProfit(int k, int[] prices) {
-         int[][][] dp = new int[prices.length][2][k+1];
-        for(int i=0;i<prices.length;i++){
-            for(int j=0;j<=1;j++){
-                for(int l=0;l<=k;l++){
-                    dp[i][j][l]=-1;
+         int[][][] dp = new int[prices.length+1][2][k+1];
+        for(int i=prices.length-1;i>=0;i--){
+            for(int buy=0;buy<=1;buy++){
+                for(int cap=1;cap<=k;cap++){
+                    if(buy==0)
+                        dp[i][0][cap] = Math.max(dp[i+1][0][cap],-prices[i]+dp[i+1][1][cap]);
+                    else
+                        dp[i][1][cap] = Math.max(dp[i+1][1][cap],prices[i]+dp[i+1][0][cap-1]);
                 }
             }
         }
-        return func(prices,0,0,k,dp);
+        return dp[0][0][k];
     }
     public int func(int[] prices,int idx,int buy,int k,int[][][] dp){
         if(k==0) return 0;
