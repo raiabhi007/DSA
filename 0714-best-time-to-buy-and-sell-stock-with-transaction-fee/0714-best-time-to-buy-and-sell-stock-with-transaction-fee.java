@@ -1,23 +1,24 @@
 class Solution {
-    public int maxProfit(int[] arr, int fee) {
-        int ossp = 0;
-        int obsp = -arr[0];
-        for(int i=1;i<arr.length;i++){
-            int nssp = 0;
-            int nbsp = 0;
-            if(ossp-arr[i]>obsp){
-                nbsp = ossp-arr[i];
-            }else{
-                nbsp = obsp;
-            }
-            if(arr[i]+obsp-fee>ossp){
-                nssp = arr[i]+obsp-fee;
-            }else{
-                nssp = ossp;
-            }
-            ossp = nssp;
-            obsp = nbsp;
+    public int maxProfit(int[] prices, int fee) {
+        int dp[][] = new int[prices.length][2];
+        for(int i=0;i<prices.length;i++){
+            dp[i][0] = -1;
+            dp[i][1] = -1;
         }
-        return ossp;
+        return func(prices,0,0,fee,dp);
+    }
+    public int func(int[] prices,int idx,int buy,int fee,int[][] dp){
+        if(idx==prices.length) return 0;
+        if(dp[idx][buy]!=-1) return dp[idx][buy];
+        
+        if(buy==0){
+            int op1 = func(prices,idx+1,0,fee,dp);
+            int op2 = -prices[idx]-fee+func(prices,idx+1,1,fee,dp);
+            return dp[idx][buy]=Math.max(op1,op2);
+        }else{
+            int op1 = func(prices,idx+1,1,fee,dp);
+            int op2 = prices[idx]+func(prices,idx+1,0,fee,dp);
+            return dp[idx][buy]=Math.max(op1,op2);
+        }
     }
 }
