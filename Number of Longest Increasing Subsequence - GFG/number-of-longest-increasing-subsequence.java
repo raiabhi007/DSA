@@ -28,38 +28,28 @@ class GFG{
 
 class Solution{
     public int NumberofLIS(int N, int arr[]){
-        int n = arr.length;
-    
-    int[] dp= new int[n];
-    int[] ct= new int[n];
-    
-    Arrays.fill(dp,1);
-    Arrays.fill(ct,1);
-    
-    int maxi = 1;
-    
-    for(int i=0; i<=n-1; i++){
-        for(int prev_index = 0; prev_index <=i-1; prev_index ++){
-            
-            if(arr[prev_index]<arr[i] && dp[prev_index]+1>dp[i]){
-                dp[i] = dp[prev_index]+1;
-                //inherit
-                ct[i] = ct[prev_index];
-            }
-            else if(arr[prev_index]<arr[i] && dp[prev_index]+1==dp[i]){
-                //increase the count
-                ct[i] = ct[i] + ct[prev_index];
-            }
-        }
-         maxi = Math.max(maxi,dp[i]);
-    }
-    
-    int nos =0;
-    
-    for(int i=0; i<=n-1; i++){
-       if(dp[i]==maxi) nos+=ct[i];
-    }
-    
-    return nos;
+       int len[] = new int[N];
+       int cnt[] = new int[N];
+       for(int i=0;i<N;i++)
+       len[i]=cnt[i] = 1;
+       int max_len = 0;
+       int res = 0;
+       for(int i=0;i<N;i++){
+           for(int j=0;j<i;j++){
+               if(arr[i]>arr[j]){
+                   if(len[i]==len[j]+1) cnt[i]+=cnt[j];
+                   if(len[j]+1>len[i]){
+                       len[i] = 1+len[j];
+                       cnt[i] = cnt[j];
+                   }
+               }
+           }
+           if(max_len==len[i]) res+=cnt[i];
+           if(max_len<len[i]){
+               max_len = len[i];
+               res = cnt[i];
+           }
+       }
+       return res;
     }
 }
