@@ -30,6 +30,6 @@ Can you solve the problem in expected time complexity?</span></p>
 <strong>Expected Auxiliary Space:</strong>&nbsp;O((n+m)/2).</span></p>
 
 <p><span style="font-size:18px"><strong>Constraints:&nbsp;</strong><br>
-0 ≤ m,n ≤ 10<sup>4</sup><br>
-1 ≤ array1[i], array2[i] ≤ 10<sup>5</sup></span></p>
+0 ≤ m,n ≤ 10<sup>6</sup><br>
+1 ≤ array1[i], array2[i] ≤ 10</span><sup><span style="font-size:15px">9</span></sup></p>
 </div>
