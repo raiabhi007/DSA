@@ -1,33 +1,24 @@
 class Solution {
     public int[] sortByBits(int[] arr) {
-         int[] bits = new int[arr.length];
-        int[] ans = new int[arr.length];
         Arrays.sort(arr);
-        for(int i = 0; i < arr.length; i++){
-            int count = 0;
-            int n = arr[i];
-            bits[i] = counter(n);
+        int n = arr.length;
+        int[][] temp = new int[n][2];
+        for(int i=0;i<n;i++){
+            temp[i][0] = arr[i];
+            temp[i][1] = count(arr[i]);
         }
-        int l = 0;
-        for(int j = 0; j <= 14; j++){
-            int length = 0;
-            for(int k = 0; k < bits.length; k++){
-                if(j == bits[k]){
-                    length++;
-                    ans[l] = arr[k];
-                    l++;
-                }
-            }
-        }
-        return ans;
+        Arrays.sort(temp,(a,b)->(a[1]-b[1]));
+        for(int i=0;i<n;i++)
+            arr[i] = temp[i][0];
+        return arr;
+        
     }
-    int counter(int k){
-        int count = 0;
-        while(k>0){
-            int rsb = k& -k;
-            k-=rsb;
-            count++;
+    private int count(int n){
+        int cnt = 0;
+        while(n>0){
+            if((n&1)!=0) cnt++;
+            n = n>>1;
         }
-        return count;
+        return cnt;
     }
 }
