@@ -5,7 +5,7 @@ class Solution {
         int[][] temp = new int[n][2];
         for(int i=0;i<n;i++){
             temp[i][0] = arr[i];
-            temp[i][1] = count(arr[i]);
+            temp[i][1] = counter(arr[i]);
         }
         Arrays.sort(temp,(a,b)->(a[1]-b[1]));
         for(int i=0;i<n;i++)
@@ -13,12 +13,13 @@ class Solution {
         return arr;
         
     }
-    private int count(int n){
-        int cnt = 0;
-        while(n>0){
-            if((n&1)!=0) cnt++;
-            n = n>>1;
+     int counter(int k){
+        int count = 0;
+        while(k>0){
+            int rsb = k& -k;
+            k-=rsb;
+            count++;
         }
-        return cnt;
+        return count;
     }
 }
