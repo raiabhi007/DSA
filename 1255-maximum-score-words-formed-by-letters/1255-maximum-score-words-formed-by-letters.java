@@ -1,32 +1,41 @@
 class Solution {
     public int maxScoreWords(String[] words, char[] letters, int[] score) {
-        if (words == null || words.length == 0 || letters == null || letters.length == 0 || score == null || score.length == 0) return 0;
-        int[] count = new int[score.length];
-        for (char ch : letters) {
-            count[ch - 'a']++;
+        HashMap<Character,Integer> map = new HashMap<>();
+        for(int i=0;i<letters.length;i++){
+            if(!map.containsKey(letters[i])){
+                map.put(letters[i],1);
+            }else
+                map.put(letters[i],map.get(letters[i])+1);
         }
-        int res = backtrack(words, count, score, 0);
-        return res;
+        return backtrack(0,words,score,map);
+        
     }
-    int backtrack(String[] words, int[] count, int[] score, int index) {
-        int max = 0;
-        for (int i = index; i < words.length; i++) {
-            int res = 0;
-            boolean isValid = true;
-            for (char ch : words[i].toCharArray()) {
-                count[ch - 'a']--;
-                res += score[ch - 'a'];
-                if (count[ch - 'a'] < 0) isValid = false;
-            }
-            if (isValid) {
-                res += backtrack(words, count, score, i + 1);
-                max = Math.max(res, max);
-            }
-            for (char ch : words[i].toCharArray()) {
-                count[ch - 'a']++;
-                res = 0;
+    private int backtrack(int idx, String[] words,int[] score,HashMap<Character,Integer> map){
+        if(idx==words.length) return 0;
+        int exc = backtrack(idx+1,words,score,map);
+         int sum = 0;
+         int i=0;
+        for(i=0;i<words[idx].length();i++){
+            char c = words[idx].charAt(i);
+            if(map.containsKey(c)){
+                sum+=score[c-'a'];
+                map.put(c,map.get(c)-1);
+                if(map.get(c)==0) map.remove(c);
+            }else{
+                sum = 0;
+                break;
             }
         }
-        return max;
+        int inc = 0;
+        if(sum!=0)
+        inc = sum+backtrack(idx+1,words,score,map);
+        for(int j=0;j<i;j++){
+            char c = words[idx].charAt(j);
+            if(!map.containsKey(c)){
+                map.put(c,1);
+            }else
+                map.put(c,map.get(c)+1);
+        }
+        return Math.max(inc,exc);
     }
 }
