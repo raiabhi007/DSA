@@ -1,6 +1,7 @@
 class Node{
     Node links[] = new Node[2];
-    public Node(){}
+    public Node(){
+    }
     boolean containsKey(int ind){
         return (links[ind]!=null);
     }
@@ -12,17 +13,17 @@ class Node{
     }
 }
 class Trie{
-    private Node root;
+    private static Node root;
     Trie(){
         root = new Node();
     }
-    public void insert(int num){
+    public static void insert(int num){
         Node node = root;
         for(int i=31;i>=0;i--){
             int bit = (num>>i)&1;
             if(!node.containsKey(bit))
                 node.put(bit,new Node());
-            node = node.get(bit);
+            node = node.get(bit);    
         }
     }
     public int getMax(int num){
@@ -34,21 +35,20 @@ class Trie{
                 maxNum = maxNum | (1<<i);
                 node = node.get(1-bit);
             }else
-                node = node.get(bit);
+            node = node.get(bit);
         }
         return maxNum;
     }
 }
 class Solution {
-    public int findMaximumXOR(int[] nums) {
-        int n = nums.length;
-        Trie root = new Trie();
-        for(int i=0;i<n;i++){
-            root.insert(nums[i]);
+    public int findMaximumXOR(int[] arr) {
+         Trie obj = new Trie();
+        for(int i=0;i<arr.length;i++){
+            obj.insert(arr[i]);
         }
         int ans = 0;
-        for(int i=0;i<n;i++){
-            int temp = root.getMax(nums[i]);
+        for(int i=0;i<arr.length;i++){
+            int temp = obj.getMax(arr[i]);
             ans = Math.max(ans,temp);
         }
         return ans;
