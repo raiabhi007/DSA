@@ -47,19 +47,23 @@ class Solution
     //Function to find the maximum number of cuts.
     public int maximizeCuts(int n, int x, int y, int z){
         int dp[] = new int[n+1];
-        Arrays.fill(dp,-1);
+        Arrays.fill(dp,-10000);
         dp[0] = 0;
-        int ans = helper(n,x,y,z,dp);
-        if(ans<0) return 0;
-        return ans;
+        for(int i=1;i<=n;i++){
+            if(x<=i) dp[i] = Math.max(1+dp[i-x],dp[i]);
+            if(y<=i) dp[i] = Math.max(1+dp[i-y],dp[i]);
+            if(z<=i) dp[i] = Math.max(1+dp[i-z],dp[i]);
+        }
+        if(dp[n]<0) return 0;
+        return dp[n];
     }
-    public int helper(int n,int x,int y,int z,int[] dp){
-        if(n==0) return 0;
-        if(n<0) return -10000;
-        if(dp[n]!=-1) return dp[n];
-        int first = helper(n-x,x,y,z,dp);
-        int second = helper(n-y,x,y,z,dp);
-        int third = helper(n-z,x,y,z,dp);
-        return dp[n]=Math.max(first,Math.max(second,third))+1;
-    }
+    // public int helper(int n,int x,int y,int z,int[] dp){
+    //     if(n==0) return 0;
+    //     if(n<0) return -10000;
+    //     if(dp[n]!=-1) return dp[n];
+    //     int first = helper(n-x,x,y,z,dp);
+    //     int second = helper(n-y,x,y,z,dp);
+    //     int third = helper(n-z,x,y,z,dp);
+    //     return dp[n]=Math.max(first,Math.max(second,third))+1;
+    // }
 }
