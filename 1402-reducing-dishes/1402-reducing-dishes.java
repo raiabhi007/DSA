@@ -1,11 +1,18 @@
 class Solution {
     public int maxSatisfaction(int[] satisfaction) {
         int n = satisfaction.length;
-        int dp[][] = new int[n][n+1];
-        for(int i=0;i<n;i++)
-            Arrays.fill(dp[i],-1);
+        int dp[][] = new int[n+1][n+2];
         Arrays.sort(satisfaction);
-        return helper(satisfaction,0,1,dp);
+        for(int i=n-1;i>=0;i--){
+            for(int time=n;time>=1;time--){
+                if(i==n-1) dp[i][time]=0;
+                int inc = time*satisfaction[i]+ dp[i+1][time+1];
+                int exc = dp[i+1][time];
+                dp[i][time] = Math.max(inc,exc);
+            }
+        }
+        
+        return dp[0][1];
         
     }
     public int helper(int[] satisfaction,int i,int time,int[][] dp){
