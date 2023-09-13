@@ -1,31 +1,28 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        int[][][] dp = new int[prices.length+1][2][3];
-        for(int i=prices.length-1;i>=0;i--){
-            for(int buy=0;buy<=1;buy++){
-                for(int cap=1;cap<=2;cap++){
-                    if(buy==0)
-                        dp[i][buy][cap] = Math.max(dp[i+1][0][cap],-prices[i]+dp[i+1][1][cap]);
-                        else
-                        dp[i][buy][cap] = Math.max(dp[i+1][1][cap],prices[i]+dp[i+1][0][cap-1]);   
-                }
+        int dp[][][] = new int[prices.length][2][2];
+        for(int i=0;i<prices.length;i++){
+            for(int j=0;j<2;j++){
+                dp[i][j][0] = -1;
+                dp[i][j][1] = -1;
             }
         }
-        return dp[0][0][2];
+        return helper(prices,0,0,2,dp);
     }
-    public int func(int[] prices,int idx,int buy,int cap,int[][][] dp){
-        if(cap==0) return 0;
-        if(idx==prices.length) return 0;
-        if(dp[idx][buy][cap]!=-1)
-            return dp[idx][buy][cap];
+    public int helper(int[] prices,int i,int buy,int t,int[][][] dp){
+        if(i==prices.length) return 0;
+        if(t==0) return 0;
+        if(dp[i][buy][t-1]!=-1) return dp[i][buy][t-1];
+        int profit = 0;
         if(buy==0){
-            int op1 = func(prices,idx+1,0,cap,dp);
-            int op2 = -prices[idx]+func(prices,idx+1,1,cap,dp);
-            return dp[idx][buy][cap]=Math.max(op1,op2);
+            int temp1 = helper(prices,i+1,0,t,dp);
+            int temp2 = -prices[i]+helper(prices,i+1,1,t,dp);
+            profit = Math.max(temp1,temp2);
         }else{
-            int op1 = func(prices,idx+1,1,cap,dp);
-            int op2 = prices[idx]+func(prices,idx+1,0,cap-1,dp);
-            return dp[idx][buy][cap]=Math.max(op1,op2);
+            int temp1 = helper(prices,i+1,1,t,dp);
+            int temp2 = prices[i]+helper(prices,i+1,0,t-1,dp);
+            profit = Math.max(temp1,temp2);
         }
+        return dp[i][buy][t-1]=profit;
     }
 }
