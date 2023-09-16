@@ -28,16 +28,20 @@ class Solution
 {
     //Function to find the length of longest common subsequence in two strings.
     static int lcs(int x, int y, String s1, String s2){
-        int[][] dp = new int[x+1][y+1];
-        for(int i=1;i<=x;i++){
-            for(int j=1;j<=y;j++){
-                if(s1.charAt(i-1)==s2.charAt(j-1))
-                dp[i][j] = 1+dp[i-1][j-1];
-                else
-                dp[i][j] = Math.max(dp[i-1][j],dp[i][j-1]);
-            }
-        }
-        return dp[x][y];
+        int dp[][] = new int[s1.length()+1][s2.length()];
+        for(int i=0;i<=s1.length();i++)
+        Arrays.fill(dp[i],-1);
+        return helper(0,0,s1,s2,dp);
+    }
+    static int helper(int i,int j,String s1,String s2,int[][] dp){
+        if(i==s1.length()||j==s2.length()) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+        if(s1.charAt(i)==s2.charAt(j))
+        return dp[i][j]=1+helper(i+1,j+1,s1,s2,dp);
+        
+        int temp1 = helper(i+1,j,s1,s2,dp);
+        int temp2 = helper(i,j+1,s1,s2,dp);
+        return dp[i][j]=Math.max(temp1,temp2);
     }
     
 }
