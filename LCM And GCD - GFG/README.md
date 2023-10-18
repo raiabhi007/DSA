@@ -14,7 +14,7 @@
 <span style="font-size:18px">LCM of 5 and 10 is 10, while
 thier GCD is 5.</span></pre>
 
-<p><span style="font-size:18px"><strong>Example 1:</strong></span></p>
+<p><span style="font-size:18px"><strong>Example 2:</strong></span></p>
 
 <pre><span style="font-size:18px"><strong>Input:</strong>
 <strong>A = </strong>14 , <strong>B = </strong>8</span>
