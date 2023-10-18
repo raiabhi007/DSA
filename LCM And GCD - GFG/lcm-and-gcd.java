@@ -27,12 +27,12 @@ class GFG {
 class Solution {
     static Long[] lcmAndGcd(Long A , Long B) {
         Long[] ans = new Long[2];
-        ans[1] = gcd(A,B);
+        if(A<B) ans[1] = gcd(B,A);
+        else ans[1] = gcd(A,B);
         ans[0] = (A*B)/ans[1];
         return ans;
     }
-    static long gcd(Long a, Long b){
-        if(b==0) return a;
-        return gcd(b,a%b);
+    static long gcd(long a,long b){
+        return b==0?a:gcd(b,a%b);
     }
 };
