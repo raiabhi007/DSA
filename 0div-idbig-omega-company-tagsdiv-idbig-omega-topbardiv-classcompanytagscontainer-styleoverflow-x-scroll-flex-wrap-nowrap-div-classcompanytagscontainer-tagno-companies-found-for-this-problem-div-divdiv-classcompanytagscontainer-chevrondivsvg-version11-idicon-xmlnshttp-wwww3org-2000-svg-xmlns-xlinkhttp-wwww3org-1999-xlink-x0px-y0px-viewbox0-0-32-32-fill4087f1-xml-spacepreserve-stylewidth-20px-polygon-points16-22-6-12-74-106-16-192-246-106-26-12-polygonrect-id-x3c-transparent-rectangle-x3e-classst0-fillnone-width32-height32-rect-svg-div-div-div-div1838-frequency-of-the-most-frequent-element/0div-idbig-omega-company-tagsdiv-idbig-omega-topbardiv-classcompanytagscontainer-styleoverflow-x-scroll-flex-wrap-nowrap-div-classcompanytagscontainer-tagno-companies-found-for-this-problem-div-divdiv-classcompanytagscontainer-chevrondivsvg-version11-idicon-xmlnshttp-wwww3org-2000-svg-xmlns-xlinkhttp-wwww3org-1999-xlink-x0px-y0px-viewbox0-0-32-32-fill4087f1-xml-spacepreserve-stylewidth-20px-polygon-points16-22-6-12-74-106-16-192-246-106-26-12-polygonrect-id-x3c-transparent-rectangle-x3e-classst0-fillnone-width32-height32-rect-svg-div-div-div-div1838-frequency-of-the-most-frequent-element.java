@@ -1,26 +1,16 @@
 class Solution {
-    public int maxFrequency(int[] nums, int k) {
-        Arrays.sort(nums);
-        int n = nums.length;
-        int i=n-1;
-        int ans = 1;
-        for(i=n-1;i>=1;i--){
-            int count=1;
-            int temp = k;
-            int ele = nums[i];
-            int j=i-1;
-            while(j>=0&&temp>0){
-            if(nums[j]+temp>=ele){
-                count++;
-                temp = temp-(ele-nums[j]);
-            }else
-                break;
-            j--;
-          }
-            ans = Math.max(ans,count);
-            if(ans>=i)
-                break;
+    public int maxFrequency(int[] A, int k) {
+        int res = 1, i = 0, j;
+        long sum = 0;
+        Arrays.sort(A);
+        for (j = 0; j < A.length; ++j) {
+            sum += A[j];
+            while (sum + k < (long)A[j] * (j - i + 1)) {
+                sum -= A[i];
+                i += 1;
+            }
+            res = Math.max(res, j - i + 1);
         }
-        return ans;
+        return res;
     }
 }
