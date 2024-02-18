@@ -3,15 +3,15 @@ class Solution {
         Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
-        helper(nums,0,ans,list);
+        helper(0,nums,ans,list);
         return ans;
     }
-    public void helper(int[] nums,int idx,List<List<Integer>> ans,List<Integer> list){
+    public void helper(int  idx,int[] nums,List<List<Integer>> ans,List<Integer> list){
         ans.add(new ArrayList<>(list));
         for(int i=idx;i<nums.length;i++){
-            if(i>idx&&nums[i]==nums[i-1]) continue;
+            if(i>idx&&(nums[i-1]==nums[i])) continue;
             list.add(nums[i]);
-            helper(nums,i+1,ans,list);
+            helper(i+1,nums,ans,list);
             list.remove(list.size()-1);
         }
     }
