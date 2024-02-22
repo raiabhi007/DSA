@@ -15,6 +15,7 @@ class Solution {
             }
             return;
         }
+        if(count>k) return;
             for(int i=1;i<=n;i++){
                 if(map[i]==false){
                     map[i]=true;
