@@ -1,21 +1,19 @@
 class Solution {
-    public String[] codes = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    String[] str = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
     public List<String> letterCombinations(String digits) {
-        List<String> list = new ArrayList<String>();
-        if(digits.length()==0)
-            return list;
-        helper(digits,list,"",0);
-        return list;
+        List<String> ans = new ArrayList<>();
+        if(digits.length()==0) return ans;
+        helper(digits,0,ans,"");
+        return ans;
     }
-    public void helper(String digits,List<String> list,String word,int n){
-        if(n==digits.length()){
-            list.add(word);
+    public void helper(String digits,int idx,List<String> ans,String temp){
+        if(idx==digits.length()){
+            ans.add(temp);
             return;
         }
-        int num = digits.charAt(n) - '0';
-        for(int i=0;i<codes[num].length();i++){
-            char ch = codes[num].charAt(i);
-            helper(digits,list,word+ch,n+1);
+        int index = (int)digits.charAt(idx)-'0';
+        for(int i=0;i<str[index].length();i++){
+            helper(digits,idx+1,ans,temp+str[index].charAt(i));
         }
     }
 }
