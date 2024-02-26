@@ -1,28 +1,13 @@
 class Solution {
     public int findTheWinner(int n, int k) {
-        int xor = 0;
-        for(int i=1;i<=n;i++){
-            xor = xor^i;
+        return findTheWinner0Based(n, k)+1;
+    }
+    
+    public int findTheWinner0Based(int n, int k) {
+        if(n == 1) {
+            return 0;
+        } else {
+            return (findTheWinner0Based(n - 1, k) + k) % n;
         }
-        HashSet<Integer> set = new HashSet<>();
-        int idx = k;
-        while(set.size()<n-1){
-            if(!set.contains(idx)){
-                xor = xor^idx;
-                set.add(idx);
-                System.out.println(idx);
-            }else{
-                int c = 0;
-                while(c<k){
-                    idx++;
-                    if(idx>n) idx = idx%n;
-                    if(!set.contains(idx)){
-                        c++;
-                    }
-                }
-            }
-            if(idx>n) idx = idx%n;
-        }
-        return xor;
     }
 }
