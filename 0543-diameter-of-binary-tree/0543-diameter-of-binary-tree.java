@@ -19,12 +19,13 @@ class Solution {
         helper(root,diameter);
         return diameter[0];
     }
-    public int helper(TreeNode root, int[] diameter){
-        if(root==null)
-            return 0;
+    
+    public int helper(TreeNode root,int[] diameter){
+        if(root==null) return 0;
+        if(root.left==null&&root.right==null) return 1;
         int lh = helper(root.left,diameter);
         int rh = helper(root.right,diameter);
         diameter[0] = Math.max(diameter[0],lh+rh);
-        return 1+Math.max(lh,rh);
+        return Math.max(lh,rh)+1;
     }
 }
